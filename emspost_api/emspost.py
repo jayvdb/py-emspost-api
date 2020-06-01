@@ -8,7 +8,10 @@
 
 import os
 import json
-from urllib import urlencode
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 import pycurl
 
@@ -142,7 +145,7 @@ class EmsAPI(object):
             raise EmsAPIException(self.__ch.c.errstr())
         else:
             http_code = self.__ch.getinfo(pycurl.HTTP_CODE)
-            if http_code <> 200:
+            if http_code != 200:
                 raise EmsAPIException("HTTP Error code: %d" % http_code)
             else:
                 result = json.loads(result)
